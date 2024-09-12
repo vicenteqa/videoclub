@@ -1,0 +1,123 @@
+services:
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKER_CONFIGS}/prowlarr:/config
+      - ./prowlarr:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKER_CONFIGS}/sonarr:/config
+      - ${MEDIA}/shows:/shows 
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  sonarr-es:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr-es
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKER_CONFIGS}/sonarr-es:/config
+      - ${MEDIA}/series:/series 
+    ports:
+      - 8988:8988
+    restart: unless-stopped    
+
+  radarr-es:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr-es
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKER_CONFIGS}/radarr-es:/config
+      - ./radarr-es:/config
+      - ${MEDIA}/pelis:/pelis 
+    ports:
+      - 7879:7879
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKER_CONFIGS}/radarr:/config
+      - ./radarr:/config
+      - ${MEDIA}/movies:/movies 
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKER_CONFIGS}/bazarr:/config
+      - ${MEDIA}/movies:/movies 
+      - ${MEDIA}/shows:/tv 
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: bridge
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - VERSION=docker
+      - PLEX_CLAIM=claim-sd2EBcy3KXyrdHPAgwc2
+    volumes:
+      - ${DOCKER_CONFIGS}/plex:/config
+      - ${MEDIA}:/media
+    ports:
+      - 32400:32400
+    restart: unless-stopped
+
+  deluge:
+    image: lscr.io/linuxserver/deluge:latest
+    container_name: deluge
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ./deluge:/config
+      - ${DOCKER_CONFIGS}/deluge:/config
+      - ${MEDIA_CENTER}/torrents:/downloads
+    ports:
+      - 8112:8112
+      - 6881:6881
+      - 58846:58846
+      - 6881:6881/udp
+    restart: unless-stopped
