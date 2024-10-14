@@ -9,7 +9,6 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOCKER_CONFIGS}/prowlarr:/config
-      - ./prowlarr:/config
     ports:
       - 9696:9696
     restart: unless-stopped
@@ -51,7 +50,6 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOCKER_CONFIGS}/radarr-es:/config
-      - ./radarr-es:/config
       - ${MEDIA}/pelis:/pelis 
     ports:
       - 7879:7879
@@ -66,7 +64,6 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOCKER_CONFIGS}/radarr:/config
-      - ./radarr:/config
       - ${MEDIA}/movies:/movies 
     ports:
       - 7878:7878
