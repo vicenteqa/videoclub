@@ -22,6 +22,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOCKER_CONFIGS}/sonarr:/config
+      - ${TORRENTS}:/downloads
       - ${MEDIA}/shows:/shows 
     ports:
       - 8989:8989
@@ -37,6 +38,7 @@ services:
     volumes:
       - ${DOCKER_CONFIGS}/sonarr-es:/config
       - ${MEDIA}/series:/series 
+      - ${TORRENTS}:/downloads
     ports:
       - 8988:8988
     restart: unless-stopped    
@@ -51,6 +53,7 @@ services:
     volumes:
       - ${DOCKER_CONFIGS}/radarr-es:/config
       - ${MEDIA}/pelis:/pelis 
+      - ${TORRENTS}:/downloads
     ports:
       - 7879:7879
     restart: unless-stopped
@@ -65,6 +68,7 @@ services:
     volumes:
       - ${DOCKER_CONFIGS}/radarr:/config
       - ${MEDIA}/movies:/movies 
+      - ${TORRENTS}:/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -109,7 +113,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOCKER_CONFIGS}/deluge:/config
-      - ${MEDIA_CENTER}/torrents:/downloads
+      - ${TORRENTS}:/downloads
     ports:
       - 8112:8112
       - 6881:6881
